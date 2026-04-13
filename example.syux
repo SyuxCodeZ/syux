@@ -1,0 +1,44 @@
+func add(a, b) [
+  return a + b
+]
+
+struct Point [
+  val x = 0
+  val y = 0
+]
+
+class Person [
+  val name = "unknown"
+  val age = 0
+
+  ctor(n, a) [
+    set name = n
+    set age = a
+    comp.out "Person constructed"
+  ]
+
+  dtor() [
+    comp.out "Person destructed"
+  ]
+]
+
+void.main [
+  comp.out "Syux V10 demo start"
+  val sum = add(4, 5)
+  comp.out sum
+
+  val i = 0
+  while (i < 3) [
+    comp.out i
+    set i = i + 1
+  ]
+
+  val who = "Alex"
+  comp.in who
+  comp.out who
+
+  obj Person user("Alex", 16)
+  obj Point p()
+  comp.out "End of main is next; destructors run on scope exit"
+  comp.out "No malloc/free needed: stack objects + ctor/dtor"
+]

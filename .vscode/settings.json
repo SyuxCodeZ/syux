@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.syux": "plaintext"
+  },
+  "code-runner.executorMapByFileExtension": {
+    ".syux": "powershell -NoProfile -ExecutionPolicy Bypass -File \"$workspaceRoot\\\\scripts\\\\run_syux.ps1\" -SourceFile \"$fileName\""
+  }
+}
