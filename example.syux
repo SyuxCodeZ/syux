@@ -1,44 +1,84 @@
-func add(a, b) [
-  return a + b
+# Syux V12 Example
+
+func sumArray(arr) [
+val total = 0
+for val x in arr [
+set total = total + x
+]
+return total
 ]
 
-struct Point [
-  val x = 0
-  val y = 0
+class User [
+val name = "unknown"
+
+ctor(n) [
+set name = n
+comp.out "User created"
 ]
 
-class Person [
-  val name = "unknown"
-  val age = 0
-
-  ctor(n, a) [
-    set name = n
-    set age = a
-    comp.out "Person constructed"
-  ]
-
-  dtor() [
-    comp.out "Person destructed"
-  ]
+dtor() [
+comp.out "User destroyed"
+]
 ]
 
 void.main [
-  comp.out "Syux V10 demo start"
-  val sum = add(4, 5)
-  comp.out sum
+comp.out "=== Syux V12 Demo ==="
 
-  val i = 0
-  while (i < 3) [
-    comp.out i
-    set i = i + 1
-  ]
+# Arrays + length
 
-  val who = "Alex"
-  comp.in who
-  comp.out who
+val nums = [5, 10, 15, 20]
+comp.out "Array length:"
+comp.out nums.len
 
-  obj Person user("Alex", 16)
-  obj Point p()
-  comp.out "End of main is next; destructors run on scope exit"
-  comp.out "No malloc/free needed: stack objects + ctor/dtor"
+# Index access + mutation
+
+comp.out "First element:"
+comp.out nums[0]
+
+set nums[1] = 99
+comp.out "Modified second element:"
+comp.out nums[1]
+
+# Classic for loop
+
+comp.out "Classic for loop:"
+for {val i = 0 : i < nums.len : i++} [
+comp.out nums[i]
+]
+
+# For-each loop
+
+comp.out "For-each loop:"
+for val x in nums [
+comp.out x
+]
+
+# Function using arrays
+
+val total = sumArray(nums)
+comp.out "Sum of array:"
+comp.out total
+
+# Boolean logic
+
+val big = total > 50
+if (big) [
+comp.out "Total is greater than 50"
+] else [
+comp.out "Total is 50 or less"
+]
+
+# Input
+
+val name = "guest"
+comp.out "Enter your name:"
+comp.in name
+comp.out "Hello,"
+comp.out name
+
+# Class usage
+
+obj User u(name)
+
+comp.out "End of program"
 ]

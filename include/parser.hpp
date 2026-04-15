@@ -1,10 +1,10 @@
 #pragma once
-#include "ast.hpp"
+#include "../ast.h"
 #include "token.hpp"
 #include <cstddef>
-#include <vector>
 #include <memory>
 #include <string>
+#include <vector>
 
 class Parser {
   std::vector<Token> tokens;
@@ -18,24 +18,32 @@ class Parser {
   const Token& consume(TokenType type, const char* message);
   [[noreturn]] void failHere(const std::string& message) const;
 
-  std::unique_ptr<Block> parseBlock();
-  std::unique_ptr<Stmt> parseStatement();
-  std::unique_ptr<Stmt> parseVarDecl();
-  std::unique_ptr<Stmt> parseAssign();
-  std::unique_ptr<Stmt> parseObjDecl();
-  std::unique_ptr<Stmt> parseOut();
-  std::unique_ptr<Stmt> parseIn();
-  std::unique_ptr<Stmt> parseIf();
-  std::unique_ptr<Stmt> parseWhile();
-  std::unique_ptr<Stmt> parseReturn();
-  FunctionDecl parseFunction();
-  TypeDecl parseType(bool isClass);
-  std::unique_ptr<Expr> parseExpression();
-  std::unique_ptr<Expr> parseComparison();
-  std::unique_ptr<Expr> parseAddition();
-  std::unique_ptr<Expr> parseMultiplication();
-  std::unique_ptr<Expr> parsePrimary();
+  std::unique_ptr<BlockNode> parseBlock();
+  std::unique_ptr<StmtNode> parseStatement();
+  std::unique_ptr<StmtNode> parseVarDecl();
+  std::unique_ptr<StmtNode> parseAssign();
+  std::unique_ptr<StmtNode> parseObjDecl();
+  std::unique_ptr<StmtNode> parseOut();
+  std::unique_ptr<StmtNode> parseIn();
+  std::unique_ptr<StmtNode> parseIf();
+  std::unique_ptr<StmtNode> parseWhile();
+  std::unique_ptr<StmtNode> parseFor();
+  std::unique_ptr<StmtNode> parseForEach();
+  std::unique_ptr<StmtNode> parseReturn();
+  std::unique_ptr<StmtNode> parseForInit();
+  std::unique_ptr<StmtNode> parseForUpdate();
+  std::unique_ptr<StmtNode> parseInlineAssign();
+  std::unique_ptr<FunctionNode> parseFunction();
+  std::unique_ptr<StructNode> parseStruct();
+  std::unique_ptr<ClassNode> parseClass();
+  std::unique_ptr<ExprNode> parseExpression();
+  std::unique_ptr<ExprNode> parseComparison();
+  std::unique_ptr<ExprNode> parseAddition();
+  std::unique_ptr<ExprNode> parseMultiplication();
+  std::unique_ptr<ExprNode> parseAtom();
+  std::unique_ptr<ExprNode> parsePrimary();
+  std::string inferExprKind(const ExprNode* expr) const;
 public:
   Parser(std::vector<Token>);
-  std::unique_ptr<MainDecl> parse();
+  std::unique_ptr<ProgramNode> parse();
 };

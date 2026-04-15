@@ -1,0 +1,80 @@
+# Syux 0.4.0 (V13) Comprehensive Test
+
+void.main [
+    comp.out "=== Syux V13 Type System Test ==="
+    comp.out ""
+    
+    # Test 1: Integer type
+    comp.out "1. Integer:"
+    val x = 42
+    comp.out x
+    
+    # Test 2: Float/Double type
+    comp.out ""
+    comp.out "2. Float:"
+    val pi = 3.14159
+    comp.out pi
+    
+    # Test 3: String type
+    comp.out ""
+    comp.out "3. String:"
+    val msg = "Hello, Syux!"
+    comp.out msg
+    
+    # Test 4: Boolean with true/false
+    comp.out ""
+    comp.out "4. Boolean (true/false):"
+    val flag1 = true
+    val flag2 = false
+    comp.out flag1
+    comp.out flag2
+    
+    # Test 5: Boolean with on/off aliases
+    comp.out ""
+    comp.out "5. Boolean aliases (on/off):"
+    val active = on
+    val inactive = off
+    comp.out active
+    comp.out inactive
+    
+    # Test 6: Arrays
+    comp.out ""
+    comp.out "6. Arrays:"
+    val nums = [10, 20, 30]
+    comp.out "Array length:"
+    comp.out nums.len
+    comp.out "First element:"
+    comp.out nums[0]
+    set nums[1] = 99
+    comp.out "Modified second element:"
+    comp.out nums[1]
+    
+    # Test 7: For-each loop
+    comp.out ""
+    comp.out "7. For-each loop:"
+    for val n in nums [
+        comp.out n
+    ]
+    
+    # Test 8: Classic for loop
+    comp.out ""
+    comp.out "8. Classic for loop:"
+    for {val i = 0 : i < 3 : i++} [
+        comp.out nums[i]
+    ]
+    
+    # Test 9: While loop with boolean
+    comp.out ""
+    comp.out "9. While loop:"
+    val counter = 0
+    while (counter < 3) [
+        comp.out counter
+        set counter = counter + 1
+    ]
+    
+    # Test 10: Type checking (this would error if uncommented)
+    # set x = "error"  # Type mismatch error
+    
+    comp.out ""
+    comp.out "=== All V13 Tests Passed ==="
+]

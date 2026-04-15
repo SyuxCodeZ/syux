@@ -28,7 +28,7 @@ bool transpileToCpp(const std::string& inputFile) {
   Parser p(tokens);
   auto ast = p.parse();
 
-  std::cout << "[Syux] Generating C++...\n";
+  std::cout << "[Syux] Generating...\n";
   CodeGen g;
   g.generate(ast.get());
   std::ofstream out("out.cpp");

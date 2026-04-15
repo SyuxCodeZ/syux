@@ -1,0 +1,3 @@
+C:/Users/HP/OneDrive/Desktop/syux/build/CMakeFiles/syux.dir
+C:/Users/HP/OneDrive/Desktop/syux/build/CMakeFiles/edit_cache.dir
+C:/Users/HP/OneDrive/Desktop/syux/build/CMakeFiles/rebuild_cache.dir

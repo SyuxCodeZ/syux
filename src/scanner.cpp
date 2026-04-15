@@ -53,6 +53,14 @@ std::vector<Token> Scanner::scan(){
       continue;
     }
 
+    if (src.compare(pos, 2, "in") == 0 &&
+      (pos == 0 || !isIdentChar(src[pos - 1])) &&
+      (pos + 2 >= src.size() || !isIdentChar(src[pos + 2]))) {
+      pushToken(TokenType::InKw, "in");
+      pos += 2;
+      continue;
+    }
+
     if (src.compare(pos, 3, "val") == 0 &&
       (pos == 0 || !isIdentChar(src[pos - 1])) &&
       (pos + 3 >= src.size() || !isIdentChar(src[pos + 3]))) {
@@ -101,6 +109,14 @@ std::vector<Token> Scanner::scan(){
       continue;
     }
 
+    if (src.compare(pos, 3, "for") == 0 &&
+      (pos == 0 || !isIdentChar(src[pos - 1])) &&
+      (pos + 3 >= src.size() || !isIdentChar(src[pos + 3]))) {
+      pushToken(TokenType::For, "for");
+      pos += 3;
+      continue;
+    }
+
     if (src.compare(pos, 4, "func") == 0 &&
       (pos == 0 || !isIdentChar(src[pos - 1])) &&
       (pos + 4 >= src.size() || !isIdentChar(src[pos + 4]))) {
@@ -114,6 +130,38 @@ std::vector<Token> Scanner::scan(){
       (pos + 6 >= src.size() || !isIdentChar(src[pos + 6]))) {
       pushToken(TokenType::Return, "return");
       pos += 6;
+      continue;
+    }
+
+    if (src.compare(pos, 4, "true") == 0 &&
+      (pos == 0 || !isIdentChar(src[pos - 1])) &&
+      (pos + 4 >= src.size() || !isIdentChar(src[pos + 4]))) {
+      pushToken(TokenType::True, "true");
+      pos += 4;
+      continue;
+    }
+
+    if (src.compare(pos, 5, "false") == 0 &&
+      (pos == 0 || !isIdentChar(src[pos - 1])) &&
+      (pos + 5 >= src.size() || !isIdentChar(src[pos + 5]))) {
+      pushToken(TokenType::False, "false");
+      pos += 5;
+      continue;
+    }
+
+    if (src.compare(pos, 2, "on") == 0 &&
+      (pos == 0 || !isIdentChar(src[pos - 1])) &&
+      (pos + 2 >= src.size() || !isIdentChar(src[pos + 2]))) {
+      pushToken(TokenType::On, "on");
+      pos += 2;
+      continue;
+    }
+
+    if (src.compare(pos, 3, "off") == 0 &&
+      (pos == 0 || !isIdentChar(src[pos - 1])) &&
+      (pos + 3 >= src.size() || !isIdentChar(src[pos + 3]))) {
+      pushToken(TokenType::Off, "off");
+      pos += 3;
       continue;
     }
 
@@ -159,7 +207,13 @@ std::vector<Token> Scanner::scan(){
     if (std::isdigit(static_cast<unsigned char>(c))) {
       const size_t start = pos;
       while (pos < src.size() && std::isdigit(static_cast<unsigned char>(src[pos]))) ++pos;
-      pushToken(TokenType::Number, src.substr(start, pos - start));
+      if (pos < src.size() && src[pos] == '.' && pos + 1 < src.size() && std::isdigit(static_cast<unsigned char>(src[pos + 1]))) {
+        ++pos; // consume '.'
+        while (pos < src.size() && std::isdigit(static_cast<unsigned char>(src[pos]))) ++pos;
+        pushToken(TokenType::Float, src.substr(start, pos - start));
+      } else {
+        pushToken(TokenType::Number, src.substr(start, pos - start));
+      }
       continue;
     }
 
@@ -175,6 +229,7 @@ std::vector<Token> Scanner::scan(){
       continue;
     }
 
+    if (src.compare(pos, 2, "++") == 0) { pushToken(TokenType::PlusPlus, "++"); pos += 2; continue; }
     if (src.compare(pos, 2, "==") == 0) { pushToken(TokenType::EqualEqual, "=="); pos += 2; continue; }
     if (src.compare(pos, 2, "!=") == 0) { pushToken(TokenType::BangEqual, "!="); pos += 2; continue; }
     if (src.compare(pos, 2, "<=") == 0) { pushToken(TokenType::LessEqual, "<="); pos += 2; continue; }
@@ -188,6 +243,10 @@ std::vector<Token> Scanner::scan(){
     if (c == '<') { pushToken(TokenType::Less, "<"); ++pos; continue; }
     if (c == '>') { pushToken(TokenType::Greater, ">"); ++pos; continue; }
     if (c == ',') { pushToken(TokenType::Comma, ","); ++pos; continue; }
+    if (c == ':') { pushToken(TokenType::Colon, ":"); ++pos; continue; }
+    if (c == '.') { pushToken(TokenType::Dot, "."); ++pos; continue; }
+    if (c == '{') { pushToken(TokenType::LBrace, "{"); ++pos; continue; }
+    if (c == '}') { pushToken(TokenType::RBrace, "}"); ++pos; continue; }
     if (c == '(') { pushToken(TokenType::LParen, "("); ++pos; continue; }
     if (c == ')') { pushToken(TokenType::RParen, ")"); ++pos; continue; }
     if (c == '[') { pushToken(TokenType::LBracket, "["); ++pos; continue; }

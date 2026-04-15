@@ -35,13 +35,22 @@ if (!(Test-Path $sourcePath)) {
   throw "Source file not found: $sourcePath"
 }
 
+$tempRoot = "D:\Temp"
+if (!(Test-Path $tempRoot)) {
+  New-Item -ItemType Directory -Path $tempRoot | Out-Null
+}
+
 $gpp = Resolve-Gpp
 Write-Host "Using g++: $gpp"
+Write-Host "Using temp dir: $tempRoot"
 
 $syuxExe = Join-Path $workspace "syux.exe"
 
 Push-Location $workspace
 try {
+  $env:TEMP = $tempRoot
+  $env:TMP = $tempRoot
+
   & $gpp -std=c++20 -I include src/main.cpp src/parser.cpp src/scanner.cpp src/codegen.cpp -o $syuxExe
   if ($LASTEXITCODE -ne 0) { throw "Failed to build syux compiler." }
 

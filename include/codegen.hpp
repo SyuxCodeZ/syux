@@ -1,22 +1,25 @@
 #pragma once
-#include "ast.hpp"
+#include "../ast.h"
 #include <sstream>
 #include <unordered_map>
 
 class CodeGen {
   std::ostringstream out;
-  std::unordered_map<std::string, ValueType> symbols;
-  std::string currentTypeName;
+  std::unordered_map<std::string, std::string> symbolTable;
+  int indentLevel = 0;
 
-  void emitBlock(const Block* block);
-  void emitBlockScoped(const Block* block);
-  void emitStmt(const Stmt* stmt);
-  void emitFunction(const FunctionDecl& fn);
-  void emitType(const TypeDecl& type);
-  std::string cppTypeFor(ValueType type) const;
-  std::string emitExpr(const Expr* expr);
-  ValueType inferType(const Expr* expr) const;
+  std::string indent() const;
+  std::string inferArrayElementType(const ArrayLiteralNode* arr) const;
+  std::string extractVectorElementType(const std::string& vecType) const;
+  std::string inferCppType(const ExprNode* expr) const;
+  std::string emitExpr(const ExprNode* expr) const;
+  std::string emitInlineStatement(const StmtNode* stmt) const;
+  void emitStatement(const StmtNode* stmt);
+  void emitBlock(const BlockNode* block);
+  void emitFunction(const FunctionNode* fn);
+  void emitStruct(const StructNode* node);
+  void emitClass(const ClassNode* node);
 public:
-  void generate(MainDecl*);
+  void generate(const ProgramNode* program);
   std::string str() const;
 };
