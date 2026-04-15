@@ -1,247 +1,154 @@
-# Syux V12
+# Syux
 
-## Philosophy
-Simple like Java, low-level awareness like C++
+**Syux** is a learning-focused programming language designed to bridge the gap between Python and C/C++.
 
-## Why Syux?
+> Learn the logic before fighting the syntax.
 
-- No manual memory management
-- Clean, readable syntax
-- C++ performance via transpilation
-- Deterministic destructors (RAII-like)
+---
 
-## Features
-- val variables (int + string + bool)
-- set reassignment
-- obj declarations (stack object construction, no malloc/free)
-- comp.out printing
-- comp.in input (line-based string input)
-- array literals and indexing (`[1, 2, 3]`, `nums[0]`)
-- array length property (`nums.len`)
-- for-each loops (`for val x in nums [ ... ]`)
-- arithmetic expressions (+, -, *, /)
-- comparison operators (==, !=, <, <=, >, >=)
-- if/else blocks
-- while loops
-- C-style for loops (`for {val i = 0 : i < n : i++} [ ... ]`)
-- top-level functions (`func`) with params and `return`
-- top-level `struct` and `class` declarations
-- class `ctor(...)` and `dtor()` blocks
-- runtime array bounds checking in generated C++
-- mixed-type array rejection with line-aware compile errors
-- block scopes
-- transpiles to C++20
+## 🚀 What is Syux?
 
-## Compiler Architecture (V12)
+Syux is a transpiled language that converts Syux code into C++, combining:
 
-Syux now uses a clean pipeline:
+* 🧠 Simple, readable syntax
+* ⚙️ Real programming concepts (types, structure, RAII)
+* 🚀 Native performance via C++
 
-`Scanner -> Parser -> AST -> CodeGen -> C++`
+---
 
-- `scanner.cpp` tokenizes input with line metadata
-- `parser.cpp` builds a `ProgramNode` AST
-- `ast.h` defines expression/statement/top-level node types
-- `codegen.cpp` traverses AST and emits formatted C++
-- `main.cpp` provides `run` and `build` CLI commands
+## 🎯 Why Syux?
 
-## Vocabulary (Language Reference)
+Many beginners struggle when moving from Python to C/C++.
 
-Use this as the canonical Syux vocabulary list.
+Syux solves this by introducing:
 
-### Program Entry
-- `void.main [ ... ]`  
-  Required program entry block.
+* Structured syntax (`val`, `set`)
+* Type awareness (int, float, string, bool)
+* Clean control flow
+* Object lifecycle (constructors/destructors)
 
-### Variable and Object Statements
-- `val name = expr`  
-  Declare variable with inferred type (`int` or `string`).
-- `set name = expr`  
-  Reassign existing variable.
-- `obj TypeName varName(args)`  
-  Create stack object (no heap allocation, no `new`).
+---
 
-### I/O Statements
-- `comp.out expr`  
-  Print expression.
-- `comp.in name`  
-  Read one line of input into variable.
+## 🧩 Example
 
-### Control Flow
-- `if (condition) [ ... ] else [ ... ]`  
-  Conditional execution.
-- `while (condition) [ ... ]`  
-  Loop while condition is true.
-- `for {val i = 0 : i < 5 : i++} [ ... ]`  
-  C-style loop syntax.
-- `for val x in nums [ ... ]`  
-  For-each loop over arrays.
-- `return expr`  
-  Return from `func`.
-
-### Top-Level Declarations
-- `func name(a, b, ...) [ ... ]`  
-  Function declaration with parameters.
-- `struct Name [ ... ]`  
-  Struct declaration.
-- `class Name [ ... ]`  
-  Class declaration.
-
-### Type Members
-- `val field = expr`  
-  Field declaration inside `struct`/`class`.
-- `ctor(args) [ ... ]`  
-  Constructor block.
-- `dtor() [ ... ]`  
-  Destructor block.
-
-### Expressions
-- Literals: `123`, `"text"`, `true`, `false`
-- Variable refs: `name`
-- Function calls: `name(arg1, arg2)`
-- Array access: `nums[0]`
-- Property access: `nums.len`
-- Grouping: `(expr)`
-- Arithmetic: `+`, `-`, `*`, `/`
-- Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
-
-### Comments
-- `# comment text`  
-  Line comment.
-
-## CLI
-
-Build the Syux compiler:
-
-```bash
-g++ -std=c++20 -I include src/main.cpp src/parser.cpp src/scanner.cpp src/codegen.cpp -o syux
+```syux
+void.main [
+  val x = 5
+  set x = x + 1
+  comp.out x
+]
 ```
 
-Run Syux source:
+---
 
-```bash
-syux run example.syux
-```
+## 🔥 Features (v0.4.0)
 
-Build only (generate + compile C++ output, no execution):
+* ✅ Type inference (int, float, string, bool)
+* ✅ Boolean aliases (`true/false`, `on/off`)
+* ✅ Arrays with `.len`
+* ✅ For, while, and for-each loops
+* ✅ Functions and classes (RAII support)
+* ✅ Type-safe assignments
+* ✅ Smart input system (`comp.in`)
+* ✅ Transpiles to C++
 
-```bash
-syux build example.syux
-```
+---
 
-## Error Reporting
-
-- Scanner and parser now report line-aware errors.
-- Array literals reject mixed element types.
-- Format:
+## ⚙️ How it works
 
 ```text
-[Syux Error] Line 3: Expected expression after '='.
+Syux → C++ → Executable
 ```
 
-Runtime safety:
-- Generated C++ includes bounds checks for array index reads/writes.
-- Out-of-range access throws: `Index out of bounds`.
+Syux generates C++ code, which is then compiled using a C++ compiler (e.g., g++).
 
-## Quick Regression Tests
+---
 
-Use these sample files in `tests/`:
+## 🛠️ Getting Started
 
-- `tests/ok_basic.syux` (happy path)
-- `tests/error_missing_expr.syux` (missing expression)
-- `tests/error_unclosed_block.syux` (block close error)
-
-Example runs:
+### 1. Clone the repository
 
 ```bash
-syux run tests/ok_basic.syux
-syux run tests/error_missing_expr.syux
-syux run tests/error_unclosed_block.syux
+git clone https://github.com/SyuxCodeZ/syux.git
+cd syux
 ```
 
-## Example
-func add(a, b) [
-  return a + b
+---
+
+### 2. Build the compiler
+
+(Instructions depend on your setup, e.g., CMake or g++)
+
+---
+
+### 3. Run a program
+
+```bash
+./scripts/run_syux.ps1 -SourceFile example.syux
+```
+
+---
+
+## 📘 Example: Type System
+
+```syux
+val x = 42          # int
+val pi = 3.14       # float
+val name = "sid"    # string
+val flag = on       # bool
+```
+
+---
+
+## 📦 Example: Arrays
+
+```syux
+val nums = [10, 20, 30]
+comp.out nums.len
+
+set nums[1] = 99
+comp.out nums[1]
+```
+
+---
+
+## 🔁 Example: Loops
+
+```syux
+for {val i = 0 : i < 3 : i++} [
+  comp.out i
 ]
 
-func max2(a, b) [
-  if (a >= b) [
-    return a
-  ] else [
-    return b
-  ]
+for val n in nums [
+  comp.out n
 ]
+```
 
-struct Point [
-  val x = 0
-  val y = 0
-]
+## ⚠️ Status
 
-class Person [
-  val name = "unknown"
-  val age = 0
+Syux is currently in early development.
 
-  ctor(n, a) [
-    set name = n
-    set age = a
-    comp.out "Person constructed"
-  ]
+Current version: *0.4.0*
 
-  dtor() [
-    comp.out "Person destructed"
-  ]
-]
+## 🗺️ Roadmap
 
-void.main [
-  comp.out "Syux V11 demo start"
+* 0.5.0 → Standard Library (math, string)
+* 0.6.0 → Improved error system
+* 0.7.0 → Module system (`use`)
+* 1.0.0 → Stable release
 
-  val sum = add(4, 5)
-  comp.out sum
+## 💡 Vision
 
-  val i = 0
-  while (i < 4) [
-    comp.out i
-    set i = i + 1
-  ]
+Syux aims to make programming easier to understand by focusing on:
 
-  val nums = [10, 20, 30, 40]
-  val flag = true
-  if (flag) [
-    comp.out "flag is true"
-  ]
+* clarity over complexity
+* structure without intimidation
+* learning before optimization
 
-  comp.out nums[0]
-  set nums[1] = 99
-  comp.out nums[1]
-  comp.out nums.len
+## 👨‍💻 Author
 
-  for {val j = 0 : j < 4 : j++} [
-    comp.out nums[j]
-  ]
+Created by a student passionate about programming and teaching others how computers work.
 
-  for val n in nums [
-    comp.out n
-  ]
+## ⭐ Contributing
 
-  val who = "Alex"
-  comp.out "Type your name:"
-  comp.in who
-  comp.out who
-
-  val top = max2(sum, i)
-  if (top > 5) [
-    comp.out "Top is greater than 5"
-  ] else [
-    comp.out "Top is 5 or less"
-  ]
-
-  obj Person user("Alex", 16)
-  obj Point p()
-
-  comp.out "End of main is next; destructors run on scope exit"
-  comp.out "No malloc/free needed: stack objects + ctor/dtor"
-]
-
-## Build
-mkdir build && cd build
-cmake ..
-make
+Contributions, ideas, and feedback are welcome!
